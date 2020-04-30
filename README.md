@@ -1,7 +1,6 @@
 # iam.js
 
-<img src="https://github.com/schopenhauer/iam.js/blob/master/public/favicon.png" align="right" width="24">
-Show a visitor's IP address, hostname and location using [Hapi.js](https://www.hapi.dev) and [IPinfo](https://www.ipinfo.io/).
+This app will detect your visitor's IP address, hostname and location using [Hapi.js](https://hapi.dev) and [IPinfo](https://ipinfo.io/).
 
 ## Configure
 
