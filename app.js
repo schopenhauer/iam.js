@@ -4,6 +4,7 @@ require('dotenv').config();
 
 const net = require('net');
 const Hapi = require('@hapi/hapi');
+const scooter = require('@hapi/scooter');
 
 const portsNames = require('./ports.json');
 const userAgents = ['curl', 'Wget', 'HTTPie', 'fetch'];
@@ -17,6 +18,10 @@ const start = async () => {
 
   await server.register({
     plugin: require('@hapi/inert'),
+  });
+
+  await server.register({
+    plugin: require('@hapi/scooter'),
   });
 
   await server.register({
@@ -38,7 +43,22 @@ const start = async () => {
     method: 'GET',
     path: '/',
     handler: (req, h) => {
-      return req.location;
+      console.log()
+      return {
+        ...req.location,
+        agent: req.headers['user-agent']
+      };
+    }
+  });
+
+  server.route({
+    method: 'GET',
+    path: '/agent',
+    handler: (req, h) => {
+      console.log()
+      return {
+        ...req.plugins.scooter
+      };
     }
   });
 
@@ -67,7 +87,7 @@ const start = async () => {
       let ip = req.location.ip;
       let payload = {
         port: port,
-        description: portsNames.ports[port].description || portsNames.ports[port][0].description,
+        description: portsNames.ports[port] ? portsNames.ports[port].description || portsNames.ports[port][0].description : null,
         ip: ip,
       }
       return new Promise(resolve => {

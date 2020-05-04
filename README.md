@@ -1,12 +1,12 @@
 # iam.js
 
-This app will detect your visitor's IP address, hostname and location using [Hapi.js](https://hapi.dev) and [IPinfo](https://ipinfo.io/).
+This app will detect your visitor's IP address, hostname, location and user agent information using [Hapi.js](https://hapi.dev), [Scooter](https://github.com/hapijs/scooter) and [IPinfo](https://ipinfo.io/).
 
 ## Configure
 
 You may set the following environment variables.
 
-* Port number: `PORT` (default value: 3000)
+* Port number: `PORT` (optional, default value: 3000)
 * Authentication token: `TOKEN` (optional)
 
 ## Usage
@@ -26,6 +26,7 @@ curl http://localhost:3000/ip
 curl http://localhost:3000/hostname
 curl http://localhost:3000/city
 curl http://localhost:3000/country
+curl http://localhost:3000/agent
 curl http://localhost:3000/p/3000
 ```
 

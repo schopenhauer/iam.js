@@ -17,9 +17,8 @@
   "dependencies": {
     "@hapi/hapi": "^19.1.1",
     "@hapi/inert": "^6.0.1",
-    "dotenv": "^8.2.0",
-    "got": "^11.0.2",
+    "@hapi/scooter": "^6.0.0",
     "hapi-geo-locate": "^4.1.0",
-    "xml2js": "^0.4.23"
+    "dotenv": "^8.2.0"
   }
 }
