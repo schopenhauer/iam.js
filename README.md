@@ -27,6 +27,13 @@ curl http://localhost:3000/hostname
 curl http://localhost:3000/city
 curl http://localhost:3000/country
 curl http://localhost:3000/agent
+```
+
+## Check open ports
+
+You may check for open ports on your host like so:
+
+```
 curl http://localhost:3000/p/3000
 ```
 
