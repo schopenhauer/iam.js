@@ -1,14 +1,14 @@
 # iam.js
 
-This app will detect your visitor's IP address, hostname, location and user agent information using [Hapi.js](https://hapi.dev), [Scooter](https://github.com/hapijs/scooter), [IPinfo](https://ipinfo.io/) and [OpenWeatherMap](https://home.openweathermap.org/).
+This app will detect your visitor's IP address, hostname, location, user agent and weather information using [Hapi.js](https://hapi.dev) and [Scooter](https://github.com/hapijs/scooter) as well as third-party sources, i.e. [IPinfo](https://ipinfo.io/) and [OpenWeatherMap](https://home.openweathermap.org/).
 
 ## Configure
 
 You may set the following environment variables.
 
 * Port number: `PORT` (optional, default value: 3000)
-* API token (IPinfo): `API_TOKEN` (optional)
-* API token (OpenWeatherMap): `API_TOKEN_OWM` (optional)
+* API token ([IPinfo](https://ipinfo.io/)): `API_TOKEN` (optional)
+* API token ([OpenWeatherMap](https://home.openweathermap.org/)): `API_TOKEN_OWM` (optional)
 
 ## Usage
 
