@@ -87,12 +87,12 @@ const start = async () => {
         const lat = loc[0];
         const lon = loc[1];
         return new Promise(resolve => {
-          let url = 'https://2api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lon + '&appid=' + process.env.API_TOKEN_OWM;
+          let url = 'https://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lon + '&appid=' + process.env.API_TOKEN_OWM;
           axios.get(url).then(function (repsonse) {
             resolve(repsonse.data);
           }).catch((error) => {
-            resolve(error);
             console.log(error);
+            resolve(null);
           });
         });
       } else {
