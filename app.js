@@ -27,7 +27,7 @@ const start = async () => {
 
   await server.register({
     plugin: require('hapi-geo-locate'),
-    options: process.env.TOKEN ? { authToken: process.env.API_TOKEN } : {}
+    options: process.env.API_TOKEN ? { authToken: process.env.API_TOKEN } : {}
   });
 
   server.route({
@@ -91,6 +91,7 @@ const start = async () => {
           axios.get(url).then(function (repsonse) {
             resolve(repsonse.data);
           }).catch((error) => {
+            resolve(error);
             console.log(error);
           });
         });
