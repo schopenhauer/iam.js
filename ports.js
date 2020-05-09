@@ -9,8 +9,6 @@ let json = {};
 (async () => {
     try {
         const response = await got(URL);
-        //var xml = fs.writeFileSync('ports.xml', response.body);
-        //console.log(response)
         parseString(response.body, function (err, result) {
           let ports = result.registry.record;
           for (port of ports) {
@@ -19,8 +17,7 @@ let json = {};
               description: port.description
             }
           }
-          var xml = fs.writeFileSync('ports_v2.json', JSON.stringify(json));
-          //console.dir(ports);
+          var xml = fs.writeFileSync('ports-iana.json', JSON.stringify(json));
         });
     } catch (error) {
         console.log(error);

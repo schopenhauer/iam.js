@@ -3,12 +3,13 @@
 require('dotenv').config();
 
 const net = require('net');
+const axios = require('axios');
 const Hapi = require('@hapi/hapi');
 const scooter = require('@hapi/scooter');
 
 const portsNames = require('./ports.json');
 const userAgents = ['curl', 'Wget', 'HTTPie', 'fetch'];
-const lineWrap = "\n";
+const lineWrap = '\n';
 
 const start = async () => {
 
@@ -26,7 +27,7 @@ const start = async () => {
 
   await server.register({
     plugin: require('hapi-geo-locate'),
-    options: process.env.TOKEN ? { authToken: process.env.TOKEN } : {}
+    options: process.env.TOKEN ? { authToken: process.env.API_TOKEN } : {}
   });
 
   server.route({
@@ -43,7 +44,6 @@ const start = async () => {
     method: 'GET',
     path: '/',
     handler: (req, h) => {
-      console.log()
       return {
         ...req.location,
         agent: req.headers['user-agent']
@@ -55,7 +55,6 @@ const start = async () => {
     method: 'GET',
     path: '/agent',
     handler: (req, h) => {
-      console.log()
       return {
         ...req.plugins.scooter
       };
@@ -81,15 +80,36 @@ const start = async () => {
 
   server.route({
     method: 'GET',
-    path: '/p/{port}',
+    path: '/weather',
+    handler: async (req, h) => {
+      if (req.location.loc && process.env.API_TOKEN_OWM) {
+        const loc = req.location.loc.split(',');
+        const lat = loc[0];
+        const lon = loc[1];
+        return new Promise(resolve => {
+          let url = 'https://2api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lon + '&appid=' + process.env.API_TOKEN_OWM;
+          axios.get(url).then(function (repsonse) {
+            resolve(repsonse.data);
+          }).catch((error) => {
+            console.log(error);
+          });
+        });
+      } else {
+        return null;
+      }
+    }
+  });
+
+  server.route({
+    method: 'GET',
+    path: '/port/{port}',
     handler: (req, h) => {
       let port = req.params.port;
-      let ip = req.location.ip;
       let payload = {
         port: port,
-        description: portsNames.ports[port] ? portsNames.ports[port].description || portsNames.ports[port][0].description : null,
-        ip: ip,
-      }
+        ip: req.location.ip,
+        description: portsNames.ports[port] ? portsNames.ports[port].description || portsNames.ports[port][0].description : null
+      };
       return new Promise(resolve => {
         const socket = new net.Socket;
         socket.setTimeout(500);
