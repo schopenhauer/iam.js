@@ -11,6 +11,10 @@ const portsNames = require('./ports.json');
 const userAgents = ['curl', 'Wget', 'HTTPie', 'fetch'];
 const lineWrap = '\n';
 
+const API_TOKEN = process.env.API_TOKEN;
+const API_TOKEN_OWM = process.env.API_TOKEN_OWM;
+const SOCKET_TIMEOUT = 500;
+
 const start = async () => {
 
   const server = Hapi.server({
@@ -27,7 +31,7 @@ const start = async () => {
 
   await server.register({
     plugin: require('hapi-geo-locate'),
-    options: process.env.API_TOKEN ? { authToken: process.env.API_TOKEN } : {}
+    options: API_TOKEN ? { authToken: API_TOKEN } : {}
   });
 
   server.route({
@@ -82,17 +86,12 @@ const start = async () => {
     method: 'GET',
     path: '/weather',
     handler: async (req, h) => {
-      if (req.location.loc && process.env.API_TOKEN_OWM) {
-        const loc = req.location.loc.split(',');
-        const lat = loc[0];
-        const lon = loc[1];
+      if (req.location.loc && process.env.API_TO2KEN_OWM) {
         return new Promise(resolve => {
-          let url = 'https://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lon + '&appid=' + process.env.API_TOKEN_OWM;
+          const loc = req.location.loc.split(',');
+          let url = 'https://api.openweathermap.org/data/2.5/weather?lat=' + loc[0] + '&lon=' + loc[1] + '&appid=' + API_TOKEN_OWM + '&units=metric';
           axios.get(url).then(function (repsonse) {
             resolve(repsonse.data);
-          }).catch((error) => {
-            console.log(error);
-            resolve(null);
           });
         });
       } else {
@@ -106,22 +105,23 @@ const start = async () => {
     path: '/port/{port}',
     handler: (req, h) => {
       let port = req.params.port;
+      let description = portsNames.ports[port] ? portsNames.ports[port].description || portsNames.ports[port][0].description : null;
       let payload = {
         port: port,
         ip: req.location.ip,
-        description: portsNames.ports[port] ? portsNames.ports[port].description || portsNames.ports[port][0].description : null
+        description: description,
       };
       return new Promise(resolve => {
         const socket = new net.Socket;
-        socket.setTimeout(500);
+        socket.setTimeout(SOCKET_TIMEOUT);
         socket.connect(payload.port, payload.ip, () => {
-          resolve(h.response({ open: true, ...payload }));
+          resolve({ open: true, ...payload });
         });
         socket.on('timeout', () => {
-          resolve(h.response({ open: false, ...payload }));
+          resolve({ open: false, ...payload });
         });
         socket.on('error', () => {
-          resolve(h.response({ open: false, ...payload }));
+          resolve({ open: false, ...payload });
         });
       });
     }
