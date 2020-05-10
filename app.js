@@ -86,7 +86,7 @@ const start = async () => {
     method: 'GET',
     path: '/weather',
     handler: async (req, h) => {
-      if (req.location.loc && process.env.API_TO2KEN_OWM) {
+      if (req.location.loc && process.env.API_TOKEN_OWM) {
         return new Promise(resolve => {
           const loc = req.location.loc.split(',');
           let url = 'https://api.openweathermap.org/data/2.5/weather?lat=' + loc[0] + '&lon=' + loc[1] + '&appid=' + API_TOKEN_OWM + '&units=metric';
