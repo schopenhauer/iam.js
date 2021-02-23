@@ -15,15 +15,15 @@
   "author": "schopenhauer",
   "license": "MIT",
   "dependencies": {
-    "@hapi/hapi": "^19.1.1",
-    "@hapi/inert": "^6.0.1",
-    "@hapi/scooter": "^6.0.0",
-    "axios": "^0.19.2",
+    "@hapi/hapi": "^20.1.0",
+    "@hapi/inert": "^6.0.3",
+    "@hapi/scooter": "^6.0.1",
+    "axios": "^0.21.1",
     "dotenv": "^8.2.0",
-    "hapi-geo-locate": "^4.1.0"
+    "hapi-geo-locate": "^4.1.1"
   },
   "devDependencies": {
-    "got": "^11.1.2",
+    "got": "^11.8.1",
     "xml2js": "^0.4.23"
   }
 }
