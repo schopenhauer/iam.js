@@ -5,8 +5,8 @@
   "description": "Show visitor's IP address and location",
   "main": "app.js",
   "engines": {
-    "node": "16.13.1",
-    "npm": "8.12"
+    "node": ">=16.13",
+    "npm": ">=8.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
